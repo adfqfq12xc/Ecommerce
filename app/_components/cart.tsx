@@ -5,11 +5,17 @@ import { IoIosStar } from "react-icons/io";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addtocart } from "../_redux/smartslice";
+import { toast } from 'react-hot-toast';
 
 function Cart({ item }: any) {
+  const handleButtonClick = () => {
+    toast.success('Added to cart : '+item.title); // Displays a success message
+    dispatch(addtocart(item))  
+    
+  };
   const calculatePercentage = () => {
     if (item?.oldPrice && item?.price) {
-      return 100 - (item.oldPrice / item.price) * 100;
+      return -1*(100*item.price)/item.oldPrice 
     } else {
       return null; // or handle the case where oldPrice or price is missing
     }
@@ -19,7 +25,7 @@ function Cart({ item }: any) {
   return (
     <div className="group relative  overflow-hidden h-full w-full ">
       <div className="h-96">
-      <Link href={{pathname:'/product',query:{_id:item?._id}}}> 
+      <Link href={{pathname:'/product',query:{_id:item?.id}}}> 
       <Image
           src={item?.image}
           alt="Portrait of a young woman"
@@ -46,7 +52,7 @@ function Cart({ item }: any) {
           <button className=" mt-2 p-3 border-[1px]  rounded-full block">
             {-Math.ceil(calculatePercentage()!)}% off
           </button>
-          <button onClick={()=>dispatch(addtocart(item)) && alert("success")} className=" mt-2 p-3 border-[1px] bg-orange-500 rounded-full">
+          <button onClick={handleButtonClick} className=" mt-2 p-3 border-[1px] bg-orange-500 rounded-full">
             Add to cart
           </button>
         </div>

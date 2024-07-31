@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 export interface Product {
-  _id: number;
+  id: number;
   title: string;
   isNew: boolean;
   oldPrice: string; // Assuming oldPrice can also be a string
@@ -27,7 +27,7 @@ export const shoppingslice = createSlice({
   reducers: {
     addtocart: (state, action) => {
       const existing = state.productData.find((item: Product) => {
-        return item._id === action.payload._id;
+        return item.id === action.payload.id;
       });
       if (existing) existing.quantity += action.payload.quantity;
       else {
@@ -36,7 +36,7 @@ export const shoppingslice = createSlice({
     },  
     increaseQuantity: (state, action) => {
         const existing = state.productData.find((item: Product) => {
-          return item._id === action.payload._id;
+          return item.id === action.payload.id;
         });
         if (existing) {
           existing.quantity++;
@@ -44,7 +44,7 @@ export const shoppingslice = createSlice({
       },
       decreaseQuantity: (state, action) => {
         const existing = state.productData.find((item: Product) => {
-          return item._id === action.payload._id;
+          return item.id === action.payload.id;
         });
         if (existing && existing.quantity > 1) {
           existing.quantity--;
@@ -55,7 +55,7 @@ export const shoppingslice = createSlice({
     },
     DeleteProduct: (state,action) => {
         const existing = state.productData.filter((item: Product) => {
-            return item._id !== action.payload._id;
+            return item.id !== action.payload.id;
           });
           state.productData=existing
     },

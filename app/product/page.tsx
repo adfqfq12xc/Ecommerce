@@ -1,22 +1,50 @@
 'use client'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { getsingleProduct } from '..'
 import Image from 'next/image'
-import Container from '../_components/container'
 import { BsCart2 } from "react-icons/bs";
 import { MdFavorite } from "react-icons/md";
 
+interface Post {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  rating: number;
+  category: string;
+}
 function page({searchParams}:string | any) {
-    console.log(typeof( searchParams._id))
-    const item=getsingleProduct(parseInt(searchParams?._id))
-    console.log(item)
+  const [item, setItem] = useState<Post | null>(null);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/post/${searchParams._id}`); // Update the URL accordingly
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+        
+        setItem(data);
+      } catch (error) {  
+    };
+  }
+
+    fetchData();
+  }, []);
+
+
+  
 
     
   return (
     <div className='max-w-screen-2xl max-h-[800px] my-auto mx-auto grid lg:grid-cols-2 gap-5 rounded-lg  bg-white lg:mt-36 '>
   
       <div className='p-3'>
-        <Image src={item?.image!} alt='Image' width={500} height={500} className='w-full max-h-[700px] rounded-lg object-cover overflow-hidden'/>
+        <Image src={item?.image} alt='Image' width={500} height={500} className='w-full max-h-[700px] rounded-lg object-cover overflow-hidden'/>
       </div>
       <div className='flex flex-col mt-10 gap-2 '>
       <div className='font-bold text-2xl uppercase' >

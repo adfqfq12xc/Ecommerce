@@ -13,9 +13,9 @@ import { StoreData } from "../_redux/smartslice";
 import { Product } from "../_redux/smartslice";
 import Link from "next/link";
 function Header() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 const productdata=useSelector((state:any)=>state?.shopping)
-console.log(productdata.productData);
+console.log(session);
 const [sum,setsum]=useState(0.00)
 const [quantity,setquantity]=useState(0)
 
@@ -39,7 +39,7 @@ useEffect(()=>{
 <div className=" flex flex-row  max-w-screen-xl gap-x-4 py-5 justify-start items-start mx-auto ">
  
         <Logo />
-        <div className="w-full hidden bg-white md:flex items-center gap-1 border-[2px] rounded-full px-2 py-2 border-lightext focus-within:border-orange-600 group">
+        <div className="w-full hidden  bg-white md:flex items-center gap-1 border-[2px] rounded-full px-2 py-2 border-lightext focus-within:border-orange-600 group">
           <IoIosSearch className="text-gray-400 group-focus-within:text-darktext duration-200" />
           <input
             type="text"
@@ -50,23 +50,26 @@ useEffect(()=>{
 
         {/* Login/Logout */}
         {!session && (
+          <Link href='/auth/Signin'>
           <div
             className="text-gray-500 flex items-center justify-center bg-bglight rounded-full hover:bg-white border-[1px] whitespace-nowrap p-2 cursor-pointer"
-            onClick={() => signIn()}
           >
             <AiOutlineUser className="text-2xl" />
             <p className="w-auto">Login/Register</p>
           </div>
+          </Link>
         )}
 
         {session && session.user?.image && (
+          <Link href={'/user'}>
           <Image
             src={session.user.image as string}
             alt="Profile Image"
             width={50}
             height={50}
-            className="rounded-full object-cover"
+            className="rounded-full object-cover overflow-hidden p-1"
           />
+          </Link>
         )}
 
         {/* Cart button */}

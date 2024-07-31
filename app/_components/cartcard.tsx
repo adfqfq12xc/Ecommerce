@@ -5,7 +5,8 @@ import { TiDelete } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
-import { UseDispatch } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   decreaseQuantity,
   DeleteProduct,
@@ -13,18 +14,23 @@ import {
 } from "../_redux/smartslice";
 function Cartcard(item: any) {
   const dispatch = useDispatch();
-  console.log(item.item);
 
-  const [products, setproducts] = useState([]);
 
   return (
+    
     <div className="flex flex-row h-32 w-full py-4 mx-auto items-center bg-white mt-5 flex-grow  justify-between">
       <div className="flex flex-row items-center h-32  ">
+
         <TiDelete
           size={40}
           className="cursor-pointer"
-          onClick={() => dispatch(DeleteProduct(item.item))}
+          onClick={() =>{
+    
+            dispatch(DeleteProduct(item.item))
+       
+          } }
         />
+
         <Image
           src={item.item.image}
           width={100}
